@@ -94,7 +94,7 @@ To sum up:
 
 
 
-HTTP status codes are grouped into **5 categories**:
+HTTP status codes are grouped in 5 categories:
 
 🔵 1xx – Informational
 Request received, continuing process.
