@@ -1,3 +1,99 @@
+1. Import modules
+
+```python
+from http.server import HTTPServer, BaseHTTPRequestHandler
+import ssl
+```
+
+ `HTTPServer` → creates the web server
+ `BaseHTTPRequestHandler` → handles HTTP requests (GET, POST)
+ `ssl` → Built-in module for TLS/SSL encryption,Converts normal HTTP into HTTPS.
+ 
+2. Create Request Handler
+
+```python
+class MyHandler(BaseHTTPRequestHandler):
+```
+create a custom class to define how the server responds.
+
+3. Handle GET request
+
+```python
+def do_GET(self):
+```
+This runs when browser sends:
+```
+GET /
+```
+Inside it:
+```python
+self.send_response(200)
+```
+→ Sends status code (200 = OK)
+
+
+```python
+self.send_header("Content-Type", "text/plain")
+```
+→ Tells browser data type
+
+```python
+self.end_headers()
+```
+→ Ends headers
+
+```python
+self.wfile.write(b"Hello Secure World!")
+```
+→ Sends response text to browser
+
+
+ 4. Create Server
+
+```python
+server_address = ('localhost', 4443)
+httpd = HTTPServer(server_address, MyHandler)
+```
+
+ `localhost` → runs on my computer
+ `4443` → port number
+ `HTTPServer` → starts listening for requests
+
+
+ 5. Enable HTTPS
+
+```python
+context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+context.load_cert_chain(certfile="cert.pem", keyfile="key.pem")
+```
+
+* Loads certificate and private key
+* Prepares encryption settings
+
+```python
+httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
+```
+→ Converts normal HTTP into HTTPS (adds TLS encryption)
+
+
+6. Start Server
+
+```python
+httpd.serve_forever()
+```
+
+→ Keeps server running and waiting for requests.
+
+To sum up:
+1. Create server
+2. Define what to send when user visits
+3. Load certificate
+4. Add encryption
+5. Start server
+
+
+
+
 HTTP status codes are grouped into **5 categories**:
 
 🔵 1xx – Informational
